@@ -1,0 +1,4 @@
+allowBuilds:
+  '@scarf/scarf': set this to true or false
+minimumReleaseAgeExclude:
+  - '@nestjs/observe@0.3.0'

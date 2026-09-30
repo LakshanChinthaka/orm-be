@@ -1,0 +1,10 @@
+Database migration
+
+- pnpm db:generate
+- pnpm db:migrate
+
+Generate module
+
+-  npx nest g module modules/product --no-spec
+-  npx nest g controller modules/product --no-spec
+-  npx nest g service modules/product --no-spec

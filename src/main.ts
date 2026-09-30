@@ -1,18 +1,29 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module.js';
-import {SwaggerModule,DocumentBuilder} from "@nestjs/swagger";
+import { ConfigService } from '@nestjs/config';
+import { Logger } from 'nestjs-pino';
+import { setupSwagger } from './core/swagger/swagger.config.js';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
 
-  const config = new DocumentBuilder()
-      .setTitle('Order Management System')
-      .setDescription('The order management system API description')
-      .setVersion('1.0')
-      .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/v1', app, documentFactory);
+  const configService = app.get(ConfigService);
+  const port = configService.get<string>('PORT');
 
-  await app.listen(process.env.PORT ?? 3000);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  app.setGlobalPrefix('api/v1');
+
+  setupSwagger(app);
+
+  await app.listen(port ?? 3000);
 }
 await bootstrap();

@@ -2,17 +2,19 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { AppUser } from '../user/entities/app-user.entity.js';
-import { UserRegisterDto } from './dto/auth.register.dto.js';
+import { UserRegisterDto } from './dtos/auth.register.dto.js';
 import * as bcrypt from 'bcrypt';
+import { SubscriptionPlanService } from '../subscription-plan/subscription-plan.service.js';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly em: EntityManager,
     private readonly jwtService: JwtService,
+    private readonly subscriptionService: SubscriptionPlanService,
   ) {}
 
-  private readonly saltRounds = 12;
+  private readonly SALT_ROUNDS = 12;
 
   async userRegister(dto: UserRegisterDto) {
     //  check if user already exists
@@ -23,22 +25,9 @@ export class AuthService {
     }
 
     const hashedPassword = await this.passwordHashed(dto.password);
-  }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: unknown) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    console.log('Hash password', hashedPassword);
+    console.log('UserRegisterDto', dto);
   }
 
   private findUserByEmail = (email: string) => {
@@ -46,6 +35,6 @@ export class AuthService {
   };
 
   private passwordHashed = (password: string) => {
-    return bcrypt.hash(password, this.saltRounds);
+    return bcrypt.hash(password, this.SALT_ROUNDS);
   };
 }

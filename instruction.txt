@@ -1,10 +1,36 @@
 Database migration
 
-- pnpm db:generate
-- pnpm db:migrate
+- add new entity to `entities` array in src/core/db/mikro-orm.config.ts
+- pnpm build
+- npx mikro-orm migration:create --dump
+- pnpm db:migration:create
+- check generated file in src/migrations/ before applying
+- pnpm db:migration:up
 
+----------------------------------
 Generate module
 
 -  npx nest g module modules/product --no-spec
 -  npx nest g controller modules/product --no-spec
 -  npx nest g service modules/product --no-spec
+
+----------------------------------
+DTO pattern
+
+File Name: <resource>-<action>-<type>.dto.ts
+Class Name: <Action><Resource><Type>Dto (or Request/Response)
+
+src/modules/subscription/dtos/
+├── admin/
+│   ├── subscription-plan-create-request.dto.ts
+│   ├── subscription-plan-update-request.dto.ts
+│   └── subscription-plan-filter-query.dto.ts
+├── customer/
+│   ├── change-plan-request.dto.ts
+│   └── user-subscription-response.dto.ts
+├── public/
+│   └── public-plan-response.dto.ts
+└── common/
+    └── price-input.dto.ts              <-- Reusable nested DTOs
+
+-----------------------------------

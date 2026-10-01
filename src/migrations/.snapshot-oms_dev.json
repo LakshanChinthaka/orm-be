@@ -10,7 +10,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -27,7 +27,7 @@
         },
         "deleted_at": {
           "name": "deleted_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -53,14 +53,11 @@
           "length": 50,
           "precision": null,
           "scale": null,
-          "default": "('USR-' || lpad(nextval('app_user_display_id_seq'::regclass)::text, 6, '0'))",
+          "default": "('USR-'::text || lpad((nextval('app_user_display_id_seq'::regclass))::text, 6, '0'::text))",
           "comment": null,
           "collation": null,
           "enumItems": [],
-          "mappedType": "string",
-          "ignoreSchemaChanges": [
-            "default"
-          ]
+          "mappedType": "string"
         },
         "hash_password": {
           "name": "hash_password",
@@ -166,7 +163,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -357,12 +354,435 @@
       "comment": null
     },
     {
+      "name": "business",
+      "schema": "public",
+      "columns": {
+        "business_contact_no": {
+          "name": "business_contact_no",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 50,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "business_email": {
+          "name": "business_email",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "business_id": {
+          "name": "business_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "gen_random_uuid()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "business_name": {
+          "name": "business_name",
+          "type": "varchar(150)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 150,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "display_id": {
+          "name": "display_id",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "industry_id": {
+          "name": "industry_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "true",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "subscription_id": {
+          "name": "subscription_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "display_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "business_display_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "business_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "business_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "business_industry_id_foreign": {
+          "columnNames": [
+            "industry_id"
+          ],
+          "constraintName": "business_industry_id_foreign",
+          "localTableName": "public.business",
+          "referencedColumnNames": [
+            "industry_id"
+          ],
+          "referencedTableName": "public.industry_type"
+        },
+        "business_subscription_id_foreign": {
+          "columnNames": [
+            "subscription_id"
+          ],
+          "constraintName": "business_subscription_id_foreign",
+          "localTableName": "public.business",
+          "referencedColumnNames": [
+            "subscription_id"
+          ],
+          "referencedTableName": "public.subscription"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "business_meta",
+      "schema": "public",
+      "columns": {
+        "about_us": {
+          "name": "about_us",
+          "type": "varchar(1000)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 1000,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "business_id": {
+          "name": "business_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "business_meta_id": {
+          "name": "business_meta_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "gen_random_uuid()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "is_operation": {
+          "name": "is_operation",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "true",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "profile_link": {
+          "name": "profile_link",
+          "type": "varchar(500)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 500,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "tax_id": {
+          "name": "tax_id",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "business_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "business_meta_business_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "business_meta_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "business_meta_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {
+        "business_meta_business_id_foreign": {
+          "columnNames": [
+            "business_id"
+          ],
+          "constraintName": "business_meta_business_id_foreign",
+          "localTableName": "public.business_meta",
+          "referencedColumnNames": [
+            "business_id"
+          ],
+          "referencedTableName": "public.business",
+          "deleteRule": "cascade"
+        }
+      },
+      "comment": null
+    },
+    {
       "name": "hear_about",
       "schema": "public",
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -457,7 +877,7 @@
       "comment": null
     },
     {
-      "name": "password_reset_token",
+      "name": "industry_type",
       "schema": "public",
       "columns": {
         "created_at": {
@@ -477,9 +897,126 @@
           "enumItems": [],
           "mappedType": "datetime"
         },
+        "industry_id": {
+          "name": "industry_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "gen_random_uuid()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "industry_name": {
+          "name": "industry_name",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 100,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "true",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "industry_name"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "industry_type_industry_name_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "industry_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "industry_type_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {},
+      "comment": null
+    },
+    {
+      "name": "password_reset_token",
+      "schema": "public",
+      "columns": {
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
         "expires_at": {
           "name": "expires_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -594,15 +1131,115 @@
       "comment": null
     },
     {
-      "name": "role_has_permission",
+      "name": "payment_method",
       "schema": "public",
       "columns": {
-        "permission_id_permission_id": {
-          "name": "permission_id_permission_id",
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "payment_method": {
+          "name": "payment_method",
+          "type": "varchar(30)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 30,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "payment_method_id": {
+          "name": "payment_method_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
           "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "gen_random_uuid()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "payment_method"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "payment_method_payment_method_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "payment_method_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "payment_method_pkey",
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "triggers": [],
+      "foreignKeys": {},
+      "comment": null
+    },
+    {
+      "name": "role_has_permission",
+      "schema": "public",
+      "columns": {
+        "permission_id": {
+          "name": "permission_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
           "unique": false,
           "length": null,
@@ -619,7 +1256,7 @@
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
-          "primary": true,
+          "primary": false,
           "nullable": false,
           "unique": false,
           "length": null,
@@ -632,27 +1269,15 @@
           "mappedType": "uuid"
         }
       },
-      "indexes": [
-        {
-          "columnNames": [
-            "permission_id_permission_id",
-            "user_role_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "keyName": "role_has_permission_pkey",
-          "primary": true,
-          "unique": true
-        }
-      ],
+      "indexes": [],
       "checks": [],
       "triggers": [],
       "foreignKeys": {
-        "role_has_permission_permission_id_permission_id_foreign": {
+        "role_has_permission_permission_id_foreign": {
           "columnNames": [
-            "permission_id_permission_id"
+            "permission_id"
           ],
-          "constraintName": "role_has_permission_permission_id_permission_id_foreign",
+          "constraintName": "role_has_permission_permission_id_foreign",
           "localTableName": "public.role_has_permission",
           "referencedColumnNames": [
             "permission_id"
@@ -683,7 +1308,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -751,7 +1376,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -805,9 +1430,43 @@
       "comment": null
     },
     {
-      "name": "subscription_feature",
+      "name": "subscription",
       "schema": "public",
       "columns": {
+        "billing_start_at": {
+          "name": "billing_start_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "cancelled_at": {
+          "name": "cancelled_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz(6)",
@@ -825,9 +1484,330 @@
           "enumItems": [],
           "mappedType": "datetime"
         },
+        "display_id": {
+          "name": "display_id",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": 20,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "true",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "boolean"
+        },
+        "last_billing_date": {
+          "name": "last_billing_date",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "last_pay_amount": {
+          "name": "last_pay_amount",
+          "type": "numeric(12,2)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": 12,
+          "scale": 2,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "decimal"
+        },
+        "next_billing_date": {
+          "name": "next_billing_date",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "paused_until": {
+          "name": "paused_until",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "payment_method_id": {
+          "name": "payment_method_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "subscription_id": {
+          "name": "subscription_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": true,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": "gen_random_uuid()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "subscription_plan_price_id": {
+          "name": "subscription_plan_price_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        },
+        "trial_end_at": {
+          "name": "trial_end_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "trial_start_at": {
+          "name": "trial_start_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": true,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "uuid"
+        }
+      },
+      "indexes": [
+        {
+          "columnNames": [
+            "display_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "subscription_display_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "subscription_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "subscription_pkey",
+          "primary": true,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "keyName": "subscription_user_id_unique",
+          "primary": false,
+          "unique": true
+        }
+      ],
+      "checks": [
+        {
+          "name": "subscription_last_pay_amount_check",
+          "expression": "last_pay_amount >= 0",
+          "definition": "CHECK ((last_pay_amount >= (0)::numeric))",
+          "columnName": "last_pay_amount"
+        }
+      ],
+      "triggers": [],
+      "foreignKeys": {
+        "subscription_payment_method_id_foreign": {
+          "columnNames": [
+            "payment_method_id"
+          ],
+          "constraintName": "subscription_payment_method_id_foreign",
+          "localTableName": "public.subscription",
+          "referencedColumnNames": [
+            "payment_method_id"
+          ],
+          "referencedTableName": "public.payment_method"
+        },
+        "subscription_subscription_plan_price_id_foreign": {
+          "columnNames": [
+            "subscription_plan_price_id"
+          ],
+          "constraintName": "subscription_subscription_plan_price_id_foreign",
+          "localTableName": "public.subscription",
+          "referencedColumnNames": [
+            "subscription_plan_price_id"
+          ],
+          "referencedTableName": "public.subscription_plan_price"
+        },
+        "subscription_user_id_foreign": {
+          "columnNames": [
+            "user_id"
+          ],
+          "constraintName": "subscription_user_id_foreign",
+          "localTableName": "public.subscription",
+          "referencedColumnNames": [
+            "user_id"
+          ],
+          "referencedTableName": "public.app_user"
+        }
+      },
+      "comment": null
+    },
+    {
+      "name": "subscription_feature",
+      "schema": "public",
+      "columns": {
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": "now()",
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
         "deleted_at": {
           "name": "deleted_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -895,7 +1875,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -937,7 +1917,7 @@
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
-          "primary": true,
+          "primary": false,
           "nullable": false,
           "unique": false,
           "length": null,
@@ -954,7 +1934,7 @@
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
-          "primary": true,
+          "primary": false,
           "nullable": false,
           "unique": false,
           "length": null,
@@ -967,19 +1947,7 @@
           "mappedType": "uuid"
         }
       },
-      "indexes": [
-        {
-          "columnNames": [
-            "subscription_plan_id",
-            "subscription_feature_id"
-          ],
-          "composite": true,
-          "constraint": true,
-          "keyName": "subscription_has_feature_pkey",
-          "primary": true,
-          "unique": true
-        }
-      ],
+      "indexes": [],
       "checks": [],
       "triggers": [],
       "foreignKeys": {
@@ -1018,7 +1986,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1033,15 +2001,49 @@
           "enumItems": [],
           "mappedType": "datetime"
         },
-        "subscription_name": {
-          "name": "subscription_name",
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz(6)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 6,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "datetime"
+        },
+        "description": {
+          "name": "description",
           "type": "varchar(30)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "unique": true,
+          "unique": false,
           "length": 30,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "collation": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "subscription_name": {
+          "name": "subscription_name",
+          "type": "varchar(1000)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 1000,
           "precision": null,
           "scale": null,
           "default": null,
@@ -1103,7 +2105,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1129,23 +2131,13 @@
           "keyName": "subscription_plan_pkey",
           "primary": true,
           "unique": true
-        },
-        {
-          "columnNames": [
-            "subscription_name"
-          ],
-          "composite": false,
-          "constraint": true,
-          "keyName": "subscription_plan_subscription_name_unique",
-          "primary": false,
-          "unique": true
         }
       ],
       "checks": [
         {
           "name": "subscription_plan_trial_days_check",
           "expression": "trial_days >= 0",
-          "definition": "check (trial_days >= 0)",
+          "definition": "CHECK ((trial_days >= 0))",
           "columnName": "trial_days"
         }
       ],
@@ -1205,7 +2197,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1273,7 +2265,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1305,7 +2297,7 @@
         {
           "name": "subscription_plan_price_amount_check",
           "expression": "amount >= 0",
-          "definition": "check (amount >= 0)",
+          "definition": "CHECK ((amount >= (0)::numeric))",
           "columnName": "amount"
         }
       ],
@@ -1331,7 +2323,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1414,7 +2406,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1431,7 +2423,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1514,7 +2506,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1531,7 +2523,7 @@
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -1685,7 +2677,7 @@
       "columns": {
         "created_at": {
           "name": "created_at",
-          "type": "timestamptz(6)",
+          "type": "timestamp(6)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,

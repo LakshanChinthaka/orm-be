@@ -1,6 +1,6 @@
 import { defineEntity, p } from '@mikro-orm/postgresql';
 import { UserRole } from '../../permission/entities/user-role.entity.js';
-import { SubscriptionPlan } from '../../subscription/entities/subscription-plan.entity.js';
+import { SubscriptionPlan } from '../../subscription-plan/entities/subscription-plan.entity.js';
 import { HearAbout } from './hear-about.entity.js';
 import { UserStatus } from './user-status.entity.js';
 
@@ -12,11 +12,7 @@ const AppUserSchema = defineEntity({
   name: 'AppUser',
   tableName: 'app_user',
   properties: {
-    id: p
-      .uuid()
-      .primary()
-      .fieldName('user_id')
-      .defaultRaw('gen_random_uuid()'),
+    id: p.uuid().primary().fieldName('user_id').defaultRaw('gen_random_uuid()'),
     userRoleId: () =>
       p.manyToOne(UserRole).mapToPk().joinColumn('user_role_id'),
     subscriptionPlanId: () =>

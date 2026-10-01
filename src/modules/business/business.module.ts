@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { BusinessController } from './business.controller.js';
+import { CustomerBusinessController } from './customer-business.controller.js';
 import { BusinessService } from './business.service.js';
+import { AdminBusinessController } from './admin-business.controller.js';
 
 @Module({
-  controllers: [BusinessController],
-  providers: [BusinessService]
+  controllers: [CustomerBusinessController, AdminBusinessController],
+  providers: [BusinessService],
 })
 export class BusinessModule {}

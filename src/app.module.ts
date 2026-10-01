@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -12,6 +12,8 @@ import { SubscriptionModule } from './modules/subscription/subscription.module.j
 import { HttpExceptionFilter } from './common/filter/http-exception.filter.js';
 import { AllExceptionFilter } from './common/filter/all-exception.filter.js';
 import { AppLoggerModule } from './common/logger/logger.module.js';
+import { SubscriptionPlanModule } from './modules/subscription-plan/subscription-plan.module.js';
+import { PaymentModule } from './modules/payment/payment.module.js';
 
 @Module({
   imports: [
@@ -35,7 +37,9 @@ import { AppLoggerModule } from './common/logger/logger.module.js';
     BusinessModule,
     UserModule,
     PermissionModule,
+    SubscriptionPlanModule,
     SubscriptionModule,
+    PaymentModule,
   ],
 
   controllers: [],

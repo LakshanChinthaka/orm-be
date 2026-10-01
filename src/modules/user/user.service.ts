@@ -1,13 +1,16 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/postgresql';
+import {
+  EntityManager,
+  UniqueConstraintViolationException,
+} from '@mikro-orm/postgresql';
 import { UserStatus } from './entities/user-status.entity.js';
 import { HearAbout } from './entities/hear-about.entity.js';
-import { UserStatusRequestDto } from './dto/user-status-request.dto.js';
-import { UserStatusResponseDto } from './dto/user-status-response.dto.js';
-import { HearAboutRequestDto } from './dto/hear-about-request.dto.js';
-import { HearAboutResponseDto } from './dto/hear-about-response.dto.js';
 import { PinoLogger } from 'nestjs-pino';
 import { randomBytes } from 'crypto';
+import { AdminUserStatusRequestDto } from './dtos/admin/admin-user-status-request.dto.js';
+import { AdminUserStatusResponseDto } from './dtos/admin/admin-user-status-response.dto.js';
+import { AdminHearAboutRequestDto } from './dtos/admin/hear-about-request.dto.js';
+import { AdminHearAboutFilterDto, HearAboutResponseDto } from './dtos/index.js';
 
 @Injectable()
 export class UserService {
@@ -18,10 +21,10 @@ export class UserService {
     this.logger.setContext(UserService.name);
   }
 
-  // user status
+  // admin
   async createUserStatus(
-    dto: UserStatusRequestDto,
-  ): Promise<UserStatusRequestDto> {
+    dto: AdminUserStatusRequestDto,
+  ): Promise<AdminUserStatusResponseDto> {
     try {
       const newStatus = this.em.create(UserStatus, {
         userStatus: dto.userStatus,
@@ -41,15 +44,15 @@ export class UserService {
     }
   }
 
-  // user status
-  async findAllUserStatus(): Promise<UserStatusResponseDto[]> {
+  // admin
+  async findAllUserStatus(): Promise<AdminUserStatusResponseDto[]> {
     return this.em.findAll(UserStatus);
   }
 
   //hear about
   async createHearAbout(
-    dto: HearAboutRequestDto,
-  ): Promise<HearAboutRequestDto> {
+    dto: AdminHearAboutRequestDto,
+  ): Promise<HearAboutResponseDto> {
     try {
       const newStatus = this.em.create(HearAbout, {
         hearAboutName: dto.hearAboutName,
@@ -69,9 +72,22 @@ export class UserService {
     }
   }
 
-  //hear about
-  async findAllHearAbout(): Promise<HearAboutResponseDto[]> {
-    return this.em.findAll(HearAbout);
+  //user
+  async customerFindAllHearAbout(): Promise<HearAboutResponseDto[]> {
+    return this.em.findAll(HearAbout, {
+      where: {
+        isActive: true,
+      },
+    });
+  }
+
+  //admin
+  async adminFindAllHearAbout(
+    filters: AdminHearAboutFilterDto,
+  ): Promise<HearAboutResponseDto[]> {
+    return this.em.findAll(HearAbout, {
+      where: filters.status !== undefined ? { isActive: filters.status } : {},
+    });
   }
 
   // Number of random bytes (4 bytes = 8 hex characters)

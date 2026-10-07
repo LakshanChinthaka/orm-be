@@ -14,6 +14,7 @@ export class SubscriptionPlanListResponse {
   subscription: string | null;
   description: string;
   trialDays: number;
+  isFeatured: boolean;
   createdAt: Date;
   updatedAt: Date;
   subscriptionFeatures: SubscriptionPlanFeatureResponse[];

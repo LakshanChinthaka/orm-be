@@ -42,6 +42,7 @@ const subscriptionSchema = defineEntity({
       .decimal()
       .precision(12)
       .scale(2)
+      .nullable()
       .check('last_pay_amount >= 0')
       .fieldName('last_pay_amount'),
     displayId: p.string().length(20).unique().fieldName('display_id'),

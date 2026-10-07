@@ -15,15 +15,17 @@ export class AllExceptionFilter implements ExceptionFilter {
 
   catch(exception: any, host: ArgumentsHost) {
     const { httpAdapter } = this.httpAdapterHost;
-    const ctx = host.switchToHttp()
+    const ctx = host.switchToHttp();
 
     const httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-    this.logger.error(`Exception: ${exception.name}, stack: ${exception.stack}`);
+    this.logger.error(
+      `Exception: ${exception.name}, stack: ${exception.stack}`,
+    );
 
     const responseBody = {
       status: httpStatus,
       message: 'Internal Server Error',
-    }
+    };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }

@@ -10,6 +10,21 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserRegisterDto {
+  @IsUUID()
+  @IsNotEmpty()
+  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
+  subscriptionPlanId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
+  subscriptionPlanPriceId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
+  paymentMethodId: string;
+
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
@@ -36,24 +51,14 @@ export class UserRegisterDto {
   contactNo: string;
 
   @IsUUID()
+  @IsOptional()
+  @ApiProperty({ example: 'xxx-xxx-xxx', required: false })
+  hearAboutId?: string;
+
+  @IsUUID()
   @IsNotEmpty()
   @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
-  userRoleId: string;
-
-  @IsUUID()
-  @IsNotEmpty()
-  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
-  userStatusId: string;
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
-  hearAboutId: string;
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ example: 'xxx-xxx-xxx', required: true })
-  subscriptionId: string;
+  industryTypeId: string;
 
   @IsString()
   @IsNotEmpty()
@@ -68,9 +73,8 @@ export class UserRegisterDto {
   @ApiProperty({ example: '0762073703' })
   businessContactNo: string;
 
-  @IsString()
+  @IsEmail()
   @IsOptional()
-  @MinLength(10)
-  @ApiProperty({ example: 'jonebusiness@example.com' })
+  @ApiProperty({ example: 'jonebusiness@example.com', required: false })
   businessEmail?: string;
 }

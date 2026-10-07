@@ -3,7 +3,7 @@ import { PermissionService } from './permission.service.js';
 import { ApiTags } from '@nestjs/swagger';
 import { UserRoleRequestDto, UserRoleResponseDto } from './dtos/index.js';
 
-@ApiTags('Admin Portal - Permission')
+@ApiTags('Permission - Admin Portal')
 @Controller('admin')
 export class AdminPermissionController {
   constructor(private readonly permissionService: PermissionService) {}

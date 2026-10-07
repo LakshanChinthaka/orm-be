@@ -18,7 +18,13 @@ import { Subscription } from '../../modules/subscription/entities/subscription.e
 import { Business } from '../../modules/business/entities/business.entity.js';
 import { BusinessMeta } from '../../modules/business/entities/business-meta.entity.js';
 import { IndustryType } from '../../modules/business/entities/industry-type.entity.js';
+import { BusinessLocationType } from '../../modules/business/entities/business-location-type.entity.js';
+import { BusinessLocation } from '../../modules/business/entities/business-location.entity.js';
 import { PaymentMethod } from '../../modules/payment/entities/payment-method.entity.js';
+import { Staff } from '../../modules/staff/entities/staff.entity.js';
+import { StaffHasPermission } from '../../modules/permission/entities/staff-has-permission.entity.js';
+import { Country } from '../../modules/address/entities/country.entity.js';
+import { Address } from '../../modules/address/entities/address.entity.js';
 
 // Each module owns its own `entities/*.entity.ts` files. This is just the
 // wiring point that lists them all for the ORM — add a new entity here
@@ -40,8 +46,14 @@ export const entities = [
   IndustryType,
   Business,
   BusinessMeta,
+  BusinessLocationType,
+  BusinessLocation,
   PaymentMethod,
   Subscription,
+  Staff,
+  StaffHasPermission,
+  Country,
+  Address,
 ];
 
 export default defineConfig({

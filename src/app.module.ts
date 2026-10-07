@@ -14,6 +14,8 @@ import { AllExceptionFilter } from './common/filter/all-exception.filter.js';
 import { AppLoggerModule } from './common/logger/logger.module.js';
 import { SubscriptionPlanModule } from './modules/subscription-plan/subscription-plan.module.js';
 import { PaymentModule } from './modules/payment/payment.module.js';
+import { StaffModule } from './modules/staff/staff.module.js';
+import { AddressModule } from './modules/address/address.module.js';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { PaymentModule } from './modules/payment/payment.module.js';
     SubscriptionPlanModule,
     SubscriptionModule,
     PaymentModule,
+    StaffModule,
+    AddressModule,
   ],
 
   controllers: [],

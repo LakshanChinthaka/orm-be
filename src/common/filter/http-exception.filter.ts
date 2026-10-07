@@ -19,6 +19,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
+    const exceptionResponse = exception.getResponse();
+    const message =
+      typeof exceptionResponse === 'object' && exceptionResponse !== null
+        ? ((exceptionResponse as { message?: unknown }).message ??
+          exception.message)
+        : exception.message;
 
     const isProduction =
       this.configService.get<string>('NODE_ENV') === 'production';
@@ -29,15 +35,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? {
             statusCode: status,
             timestamp: new Date().toISOString(),
-            message: exception.message,
+            message,
           }
         : {
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
-            message: exception.message,
+            message,
             name: exception.name,
-            stack: exception.stack
+            stack: exception.stack,
           },
     );
   }

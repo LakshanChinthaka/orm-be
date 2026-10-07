@@ -4,6 +4,8 @@ import { AppModule } from './app.module.js';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
 import { setupSwagger } from './core/swagger/swagger.config.js';
+import cookieParser from 'cookie-parser';
+import { enableCors } from './core/cors/cors.config.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -11,6 +13,10 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const port = configService.get<string>('PORT');
+
+  app.use(cookieParser());
+
+  enableCors(app, configService);
 
   app.useGlobalPipes(
     new ValidationPipe({

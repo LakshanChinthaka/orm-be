@@ -22,13 +22,16 @@ const SubscriptionPlanSchema = defineEntity({
 
     subscriptionName: p
       .string()
-      .length(1000)
+      .length(30)
       .nullable()
       .fieldName('subscription_name'),
 
-    description: p.string().length(30).fieldName('description'),
+    description: p.string().length(1000).fieldName('description'),
 
     trialDays: p.integer().check('trial_days >= 0').fieldName('trial_days'),
+
+    // Highlighted as the recommended plan on the public pricing page
+    isFeatured: p.boolean().default(false).fieldName('is_featured'),
 
     createdAt: p.datetime().defaultRaw('now()').fieldName('created_at'),
     updatedAt: p.datetime().defaultRaw('now()').fieldName('updated_at'),

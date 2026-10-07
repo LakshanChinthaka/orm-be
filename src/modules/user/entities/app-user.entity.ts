@@ -19,7 +19,8 @@ const AppUserSchema = defineEntity({
       p
         .manyToOne(SubscriptionPlan)
         .mapToPk()
-        .joinColumn('subscription_plan_id'),
+        .joinColumn('subscription_plan_id')
+        .deleteRule('set null'),
     hearAboutId: () =>
       p
         .manyToOne(HearAbout)
@@ -46,7 +47,12 @@ const AppUserSchema = defineEntity({
       .length(50)
       .nullable()
       .fieldName('user_contact_no'),
-    userEmail: p.string().length(255).unique().fieldName('user_email'),
+    userEmail: p
+      .string()
+      .length(255)
+      .unique()
+      .index('idx_app_user_email')
+      .fieldName('user_email'),
     hashPassword: p.string().length(255).fieldName('hash_password'),
     referralCode: p.string().length(8).fieldName('referral_code'),
     profileLink: p.string().length(500).nullable().fieldName('profile_link'),
@@ -55,6 +61,13 @@ const AppUserSchema = defineEntity({
     updatedAt: p.datetime().defaultRaw('now()').fieldName('updated_at'),
     deletedAt: p.datetime().nullable().fieldName('deleted_at'),
   },
+
+  indexes: [
+    {
+      name: 'idx_app_user_auth_lookup',
+      properties: ['id', 'isActive', 'deletedAt'],
+    },
+  ],
 });
 
 export class AppUser extends AppUserSchema.class {}

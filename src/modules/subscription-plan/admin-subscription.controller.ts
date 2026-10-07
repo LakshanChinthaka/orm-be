@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SubscriptionPlanService } from './subscription-plan.service.js';
 import {
   SubscriptionFeatureRequest,
@@ -8,10 +18,14 @@ import {
   SubscriptionPlanCreateRequest,
   SubscriptionPlanCreateResponse,
   SubscriptionPlanListResponse,
+  AdminPlanFilterDto,
+  SubscriptionPlanStatusResponse,
+  SubscriptionPlanFeaturedUpdateRequestDto,
 } from './dtos/index.js';
-import { AdminPlanFilterDto } from './dtos/admin/subscription-plan-filter-query.dto.js';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard.js';
+import { SuperAdminGuard } from '../../common/guards/super-admin.guard.js';
 
-@ApiTags('Admin Portal - Subscriptions')
+@ApiTags('Subscriptions Plan - Admin Portal')
 @Controller('admin/subscription-plan')
 export class AdminSubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionPlanService) {}
@@ -21,6 +35,13 @@ export class AdminSubscriptionController {
     @Body() dto: SubscriptionStatusDto,
   ): Promise<SubscriptionStatusDto> {
     return this.subscriptionService.createSubscriptionStatus(dto);
+  }
+
+  @Get('status')
+  async findAllSubscriptionPlanStatus(): Promise<
+    SubscriptionPlanStatusResponse[]
+  > {
+    return this.subscriptionService.findAllSubscriptionPlanStatus();
   }
 
   @Post('feature')
@@ -47,5 +68,18 @@ export class AdminSubscriptionController {
     @Query() filters: AdminPlanFilterDto,
   ): Promise<SubscriptionPlanListResponse[]> {
     return this.subscriptionService.adminFindAllSubscriptionPlan(filters);
+  }
+
+  @Patch('plan/:planId/featured')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, SuperAdminGuard)
+  async updateSubscriptionPlanFeatured(
+    @Param('planId', ParseUUIDPipe) planId: string,
+    @Body() dto: SubscriptionPlanFeaturedUpdateRequestDto,
+  ) {
+    return this.subscriptionService.updateSubscriptionPlanFeatured(
+      planId,
+      dto.isFeatured,
+    );
   }
 }

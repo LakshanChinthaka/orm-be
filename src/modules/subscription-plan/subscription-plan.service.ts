@@ -22,6 +22,7 @@ import {
   SubscriptionPlanListResponse,
   AdminPlanFilterDto,
   AdminSubscriptionPlanListResponse,
+  SubscriptionPlanStatusResponse,
 } from './dtos/index.js';
 
 @Injectable()
@@ -77,9 +78,7 @@ export class SubscriptionPlanService {
 
   // admin and internal
   async findAllSubscriptionFeature(): Promise<SubscriptionFeatureResponse[]> {
-    const features = await this.em.find(SubscriptionFeature, {
-      isActive: true,
-    });
+    const features = await this.em.findAll(SubscriptionFeature);
     return features.map((f) => ({ ...f, deletedAt: f.deletedAt ?? null }));
   }
 
@@ -89,6 +88,15 @@ export class SubscriptionPlanService {
   ): Promise<SubscriptionPlanCreateResponse> {
     try {
       return await this.em.transactional(async (em) => {
+        // Only one plan can be featured at a time
+        if (dto.isFeatured) {
+          await em.nativeUpdate(
+            SubscriptionPlan,
+            { isFeatured: true },
+            { isFeatured: false },
+          );
+        }
+
         const plan = em.create(SubscriptionPlan, {
           subscriptionStatus: em.getReference(
             SubscriptionStatus,
@@ -97,6 +105,7 @@ export class SubscriptionPlanService {
           subscriptionName: dto.subscriptionName,
           description: dto.description,
           trialDays: dto.trialDays ?? 0,
+          isFeatured: dto.isFeatured ?? false,
         });
 
         // Create a SubscriptionPlanPrice record for every price entry in dto.prices
@@ -109,7 +118,7 @@ export class SubscriptionPlanService {
           }),
         );
 
-        if (dto.subscriptionFeatures?.length > 0) {
+        if (dto.subscriptionFeatures.length > 0) {
           dto.subscriptionFeatures.forEach((feature) => {
             em.create(SubscriptionHasFeature, {
               subscriptionPlan: plan,
@@ -131,6 +140,7 @@ export class SubscriptionPlanService {
           subscriptionName: plan.subscriptionName ?? null,
           description: plan.description,
           trialDays: plan.trialDays,
+          isFeatured: plan.isFeatured,
           createdAt: plan.createdAt,
           updatedAt: plan.updatedAt,
           prices: prices.map((p) => ({
@@ -184,6 +194,7 @@ export class SubscriptionPlanService {
       subscription: plan.subscriptionName ?? null,
       description: plan.description,
       trialDays: plan.trialDays,
+      isFeatured: plan.isFeatured,
       createdAt: plan.createdAt,
       updatedAt: plan.updatedAt,
       deletedAt: plan.deletedAt ?? null,
@@ -235,6 +246,7 @@ export class SubscriptionPlanService {
       subscription: plan.subscriptionName ?? null,
       description: plan.description,
       trialDays: plan.trialDays,
+      isFeatured: plan.isFeatured,
       createdAt: plan.createdAt,
       updatedAt: plan.updatedAt,
       prices: plan.prices.getItems().map((price) => ({
@@ -279,6 +291,7 @@ export class SubscriptionPlanService {
       subscription: plan.subscriptionName ?? null,
       description: plan.description,
       trialDays: plan.trialDays,
+      isFeatured: plan.isFeatured,
       createdAt: plan.createdAt,
       updatedAt: plan.updatedAt,
       prices: plan.prices.getItems().map((price) => ({
@@ -302,13 +315,48 @@ export class SubscriptionPlanService {
     };
   }
 
+  //admin - only one plan can be featured at a time
+  async updateSubscriptionPlanFeatured(planId: string, isFeatured: boolean) {
+    return this.em.transactional(async (em) => {
+      const plan = await em.findOne(SubscriptionPlan, { id: planId });
+
+      if (!plan) {
+        throw new NotFoundException(`Subscription plan '${planId}' not found`);
+      }
+
+      if (isFeatured) {
+        await em.nativeUpdate(
+          SubscriptionPlan,
+          { isFeatured: true, id: { $ne: planId } },
+          { isFeatured: false },
+        );
+      }
+
+      plan.isFeatured = isFeatured;
+      await em.flush();
+
+      this.logger.info(
+        `Subscription plan '${planId}' featured set to ${isFeatured}`,
+      );
+
+      return { id: plan.id, isFeatured: plan.isFeatured };
+    });
+  }
+
+  //admin
+  async findAllSubscriptionPlanStatus(): Promise<
+    SubscriptionPlanStatusResponse[]
+  > {
+    return this.em.findAll(SubscriptionStatus);
+  }
+
   //internal
   public findSubscriptionPlanById = (planId: string) => {
     return this.em.findOne(
       SubscriptionPlan,
       { id: planId },
       {
-        populate: ['subscriptionStatus'],
+        populate: ['subscriptionStatus', 'prices'],
       },
     );
   };

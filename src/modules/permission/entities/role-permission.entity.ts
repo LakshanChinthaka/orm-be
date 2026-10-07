@@ -9,12 +9,22 @@ const RolePermissionSchema = defineEntity({
       .primary()
       .fieldName('permission_id')
       .defaultRaw('gen_random_uuid()'),
-    permissionName: p.string().length(50).unique().fieldName('permission_name'),
+
+    // e.g., "staff:create", "orders:refund", "inventory:read"
+    permissionName: p
+      .string()
+      .length(100)
+      .unique()
+      .index('idx_permission_name')
+      .fieldName('permission_name'),
+
+    // e.g., "staff", "orders", "inventory" (NO UNIQUE CONSTRAIN HERE!)
     permissionModule: p
       .string()
       .length(50)
-      .unique()
+      .index('idx_permission_module')
       .fieldName('permission_module'),
+
     createdAt: p.datetime().defaultRaw('now()').fieldName('created_at'),
     updatedAt: p.datetime().defaultRaw('now()').fieldName('updated_at'),
   },

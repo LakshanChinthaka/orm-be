@@ -30,10 +30,7 @@ const businessSchema = defineEntity({
       .length(255)
       .nullable()
       .fieldName('business_email'),
-    businessContactNo: p
-      .string()
-      .length(50)
-      .fieldName('business_contact_no'),
+    businessContactNo: p.string().length(50).fieldName('business_contact_no'),
     isActive: p.boolean().default(true).fieldName('is_active'),
     createdAt: p.datetime().defaultRaw('now()').fieldName('created_at'),
     updatedAt: p.datetime().defaultRaw('now()').fieldName('updated_at'),

@@ -6,11 +6,11 @@ import {
 import { UserStatus } from './entities/user-status.entity.js';
 import { HearAbout } from './entities/hear-about.entity.js';
 import { PinoLogger } from 'nestjs-pino';
-import { randomBytes } from 'crypto';
 import { AdminUserStatusRequestDto } from './dtos/admin/admin-user-status-request.dto.js';
 import { AdminUserStatusResponseDto } from './dtos/admin/admin-user-status-response.dto.js';
 import { AdminHearAboutRequestDto } from './dtos/admin/hear-about-request.dto.js';
 import { AdminHearAboutFilterDto, HearAboutResponseDto } from './dtos/index.js';
+import { AppUser } from './entities/app-user.entity.js';
 
 @Injectable()
 export class UserService {
@@ -90,8 +90,11 @@ export class UserService {
     });
   }
 
-  // Number of random bytes (4 bytes = 8 hex characters)
-  private generateReferralCode = (length = 4) => {
-    return randomBytes(length).toLocaleString('hex').toLocaleLowerCase();
+  public findActiveUserStatus = () => {
+    return this.em.findOne(UserStatus, { userStatus: 'active' });
+  };
+
+  public findHearAboutById = (id: string) => {
+    return this.em.findOne(HearAbout, { id: id });
   };
 }

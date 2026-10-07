@@ -4,6 +4,7 @@ export class SubscriptionPlanCreateResponse {
   subscriptionName: string | null;
   description: string;
   trialDays: number;
+  isFeatured: boolean;
   createdAt: Date;
   updatedAt: Date;
   prices: {

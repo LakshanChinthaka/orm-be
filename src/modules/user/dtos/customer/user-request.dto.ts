@@ -6,7 +6,7 @@ import {
   MinLength,
   IsOptional,
   IsUUID,
-  IsEmail
+  IsEmail,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -35,5 +35,4 @@ export class UserRequestDto {
   @IsEmail()
   @IsNotEmpty()
   userEmail: string;
-
 }

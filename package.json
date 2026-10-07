@@ -23,7 +23,10 @@
     "db:migration:create": "mikro-orm migration:create",
     "db:migration:up": "mikro-orm migration:up",
     "db:migration:down": "mikro-orm migration:down",
-    "db:migration:pending": "mikro-orm migration:pending"
+    "db:migration:pending": "mikro-orm migration:pending",
+    "db:seed:permissions": "nest build && node dist/seeders/permission.seed.js",
+    "db:seed:countries": "nest build && node dist/seeders/country.seed.js",
+    "db:seed:addresses": "nest build && node dist/seeders/address.seed.js"
   },
   "mikro-orm": {
     "useTsNode": false,
@@ -43,9 +46,11 @@
     "@nestjs/jwt": "^12.0.2",
     "@nestjs/observe": "^0.3.0",
     "@nestjs/platform-express": "^12.0.1",
-    "bcrypt": "^6.0.0",
+    "argon2": "^0.45.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "cookie-parser": "^1.4.7",
+    "dayjs": "^1.11.23",
     "dotenv": "^18.0.1",
     "nestjs-pino": "^5.2.1",
     "pino-http": "^11.0.0",
@@ -60,7 +65,7 @@
     "@nestjs/schematics": "^12.0.0",
     "@nestjs/swagger": "^12.0.1",
     "@nestjs/testing": "^12.0.1",
-    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/supertest": "^7.0.0",

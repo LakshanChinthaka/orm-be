@@ -9,31 +9,31 @@ import {
 } from './dtos/index.js';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Admin Portal - Users')
+@ApiTags('Users - Admin Portal')
 @Controller('admin')
 export class AdminUserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('status')
+  @Post('user-status')
   async createUserStatus(
     @Body() dto: AdminUserStatusRequestDto,
   ): Promise<AdminUserStatusResponseDto> {
     return await this.userService.createUserStatus(dto);
   }
 
-  @Get('status')
+  @Get('user-status')
   async findAllUserStatus(): Promise<AdminUserStatusResponseDto[]> {
     return await this.userService.findAllUserStatus();
   }
 
-  @Post('hear/about')
+  @Post('hear-about')
   async createHearAbout(
     @Body() dto: AdminHearAboutRequestDto,
   ): Promise<HearAboutResponseDto> {
     return await this.userService.createHearAbout(dto);
   }
 
-  @Get('hear/about')
+  @Get('hear-about')
   async findAllHearAbout(
     @Query() filters: AdminHearAboutFilterDto,
   ): Promise<HearAboutResponseDto[]> {

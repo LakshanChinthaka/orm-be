@@ -16,6 +16,7 @@ export class PermissionService {
     try {
       const newRole = this.em.create(UserRole, {
         userRole: dto.userRole,
+        roleSlug: this.createUserSlug(dto.userRole),
       });
       await this.em.flush();
 
@@ -34,4 +35,9 @@ export class PermissionService {
   async findAllUserRole(): Promise<UserRoleResponseDto[]> {
     return this.em.findAll(UserRole);
   }
+
+  private createUserSlug = (userRole: string): string => {
+    if (!userRole) return '';
+    return userRole.trim().toLowerCase().replace(/\s+/g, '_');
+  };
 }

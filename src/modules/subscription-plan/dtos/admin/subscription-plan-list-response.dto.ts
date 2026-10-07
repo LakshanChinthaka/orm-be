@@ -16,6 +16,7 @@ export class AdminSubscriptionPlanListResponse {
   subscription: string | null;
   description: string;
   trialDays: number;
+  isFeatured: boolean;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;

@@ -1,6 +1,6 @@
 allowBuilds:
   '@scarf/scarf': false
-  bcrypt: set this to true or false
+  argon2: true
   esbuild: set this to true or false
 minimumReleaseAgeExclude:
   - '@nestjs/observe@0.3.0'

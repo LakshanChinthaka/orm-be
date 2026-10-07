@@ -10,11 +10,18 @@ import {
   Max,
   IsArray,
   ValidateNested,
+  IsBoolean,
   ArrayMinSize,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { PriceInputDto } from '../common/price-input.dto.js';
+
+const toTitleCase = (value: string) => {
+  const normalized = value.trim().toLocaleLowerCase();
+
+  return normalized.charAt(0).toLocaleUpperCase() + normalized.slice(1);
+};
 
 export class SubscriptionPlanCreateRequest {
   @IsUUID()
@@ -22,18 +29,20 @@ export class SubscriptionPlanCreateRequest {
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
   subscriptionStatusId: string;
 
-  @IsOptional()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? toTitleCase(value) : value,
+  )
   @IsString()
   @MinLength(3)
-  @MaxLength(1000)
+  @MaxLength(30)
   @ApiProperty({ example: 'Pro Tier', required: false })
   subscriptionName?: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(30)
-  @ApiProperty({ example: 'pro-tier' })
+  @MaxLength(1000)
+  @ApiProperty({ example: 'pro-tier is good' })
   description: string;
 
   @IsOptional()
@@ -48,6 +57,11 @@ export class SubscriptionPlanCreateRequest {
   })
   trialDays?: number;
 
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({ example: false, required: false })
+  isFeatured?: boolean;
+
   @IsArray()
   @ArrayMinSize(1, {
     message: 'At least one billing cycle price must be provided',
@@ -60,6 +74,10 @@ export class SubscriptionPlanCreateRequest {
   })
   prices: PriceInputDto[];
 
+  @IsArray()
+  @ArrayMinSize(1, {
+    message: 'At least one subscription feature must be provided',
+  })
   @IsUUID('4', { each: true })
   @ApiProperty({
     example: [
